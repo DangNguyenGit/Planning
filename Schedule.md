@@ -6,7 +6,7 @@ Dang and Abhiram Resposibilities
 4. Once the planning is fully complete (before the game as expected) the person working on the Planning will devote their time on the game code as well to complete the game as quick and efficiently as possible.
 
 **Time Schedule**
-Both Individuals will split their attention on both Advanced Functions and Computer Science at around 11:30 am (After the Meeting) to 3:00 am (During or After the last Hours of Class)
+Both Individuals will split their attention on both Advanced Functions and Computer Science at around 11:30 am (After the Meeting) to 3:00 am (During or After the last Hours of Class).
 Individuals with mainly focus on Computer Science at around 5:00 pm (at the earliest) to 9:30 pm assuming there is no Math work or studying required on that given day.
 
 **Why we Chose this Sort of Schedule**
