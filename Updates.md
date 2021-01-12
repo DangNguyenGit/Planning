@@ -15,3 +15,14 @@ of the background of the game)
 code for the brick breaker project (the paddle + movements). 
 3. Discussed the overall parameters and changes that will be implemented 
 within the project (and hopefully executed by the time the game is done). 
+
+**Day 2 (Sort of) (January 12, 2021):**
+Dang N:
+1. Worked on the Planning for the Github Repository (Algorithm and Schedule).
+2. Helped out with finding and creating the game assets (such as drawings and photos of the game).
+3. Helped fix and figure out some game coding issues in terms of figuring out how to make the images move within the game.
+
+Abhiram S:
+1. Worked on figuring out how to make the images move within the game code.
+2. Helped figure out the best game assets to include within the game (which images are more suitable for the game theme).
+3. Helped out with and worked on the Game UML for the planning of the game.
