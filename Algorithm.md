@@ -27,3 +27,16 @@
 3. If a power-up brick gets hit by the ball, a JPEG or Image of a power-up falls down
 4. If the player collects the power-up, activates power-up
 5. If all of the bricks have been hit, move to a new level or reset the game (or a game completed screen pops-up)
+
+**Game Over + Game Start Frames**
+1. Game Start Screen pops up on the player's screen (assuming there is no intro sequence)
+2. Player selects / clicks the start button on the Start Screen
+3. Game Starts (See the Other Algorithms)
+4. Player selects the exit button on the start screen
+5. Player Exits the Game Start Screen (and the game in general)
+6. Player loses the game (according to the way the ball algorithm mentions)
+7. Game over screen pops-up on the player's screen
+8. Player selects the retry button (or play again, same thing but different text)
+9. Game resets and returns to the start screen
+10. Player selects exit game button
+11. Player exits the game over screen (and the game in general)
