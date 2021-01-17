@@ -1,0 +1,13 @@
+ ------Adding Images into the Game-----
+ 
+ JFrame frame = new JFrame();
+        ImageIcon icon = new ImageIcon("src\\showimage\\beach2.jpg");
+        JLabel label = new JLabel(icon);
+        frame.add(label);
+        frame.setDefaultCloseOperation
+         (JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(400, 400);
+        frame.setVisible(true);
+      
+-
