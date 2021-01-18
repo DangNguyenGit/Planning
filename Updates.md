@@ -26,3 +26,27 @@ Abhiram S:
 1. Worked on figuring out how to make the images move within the game code.
 2. Helped figure out the best game assets to include within the game (which images are more suitable for the game theme).
 3. Helped out with and worked on the Game UML for the planning of the game.
+
+**Day 3-4 (January 15-16):**
+Dang N:
+1. Assisted Abhiram in finding videos to help with the coding and assisted Abhiram in finding game assets (ex. Game Font, Game Background, Game Audio clips).
+Abhiram S:
+1. Looked for game assets for the game (such as fonts, background images, etc.)
+2. Worked on figuring out how to make the paddle and bricks of the game turn into images (SCRAPPED)
+
+**Day 5 (January 18):**
+Dang N:
+1. Worked on some game code (Found out how to create sound effects within the game and helped out with the menu)
+2. Helped with some issues with the code (such as figuring out how to call the contents of a different class into the main class / power-ups as well)
+3. Helped with the overall aesthetic of the game (such as the game font)
+4. Worked on finishing the base code files in the planning phase of the game
+5. Fleshed out some aspects of the planning phase
+Abhiram S:
+1. Worked on figuring out how to include sound effects into the game (COMPLETED)
+2. Worked on creating the main menu for the game
+3. Found and Implemented the game assets (Sound and Images)
+4. Worked on creating the power-ups for the game
+5. Began working on creating the UML
+
+
+
