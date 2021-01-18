@@ -21,10 +21,10 @@ we will make however, so the additional changes will only be to improving the at
 
 **A General List of Changes and Modifications We Plan To Make**
 
-1. Intro Sequence or Menu Page
-2. Perks / Power-Ups (Bonus Gameplay Material for Players)
-3. Improvements in the Look of the Game (Player Platform, Background, the Ball)
-4. Game Over Page
+1. Intro Sequence or Menu Page (50-60 Percent COMPLETE)
+2. Perks / Power-Ups (Bonus Gameplay Material for Players) (IN-PROGRESS)
+3. Improvements in the Look of the Game (Player Platform, Background, the Ball) (SOME PART SCRAPPED)
+4. Game Over Page (50-60 Percent COMPLETE)
 
 **Why we Decided on these Changes:**
 
@@ -40,6 +40,9 @@ who have done the project by themselves.
 1. https://www.youtube.com/watch?v=K9qMm3JbOH0
 2. https://www.youtube.com/watch?v=tFwp589MAFk&ab_channel=ProgrammingKnowledge
 3. https://www.youtube.com/watch?v=K9qMm3JbOH0&ab_channel=AwaisMirza
+4. https://www.youtube.com/watch?v=TErboGLHZGA&t=417s
+5. https://www.youtube.com/watch?v=3q4f6I5zi2w
+6. https://www.youtube.com/watch?v=_biRI1V0nxw
 
 **Our Vision of What the Game Will Look Like (Layout and Functionality)**
 
@@ -54,6 +57,11 @@ basic component and gameplay of the game) and hit several blocks above it, which
 colored or generally visually different from the basic blocks indicating that they contain a perk (these perks are not yet decided upon). If the
 player loses, a basic "Game Over" menu/window will appear along side a "Return to Menu" or "Play Again" button. This button should either restart
 the game or send the player back to the main menu as shown on the button text. 
+
+[SCRAPPED INTRO SEQUENCE]
+[SCRAPPED ABOUT US SECTION]
+[PERKS AND COLORED BLOCKS NOT YET DECIDED]
+
 
 
 
