@@ -1,6 +1,6 @@
 **What We Learned from the Coding (From Test (Base) Code)**
 
-*Adding Images to Game (Code)*
+*Adding Images to Game (Code):*
 We have first received this code with the help of Ms.Luce but unfortunately could not tune the coding to be suitable for our game.
 The code ended up covering up the entire screen with an image, thus making it almost impossible for the player to play the game (due
 to the lack of vision of the actual bricks and paddle). From the coding, we have learned how to include an image into the game by turning
