@@ -10,3 +10,30 @@
         frame.setSize(400, 400);
         frame.setVisible(true);
       
+------Adding Music to Game------
+void playMusic (String musicLocation)
+{
+  try{
+     file musicpath = new File (musiclocation);
+     if (musicpath.exists())
+     {
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+        Clip clip = AudioSystem.getClip();
+        clip.start();
+        
+        JOptionPane.showMessageDialog(null, "Press ok to stop playing");
+        
+     }
+     else
+     {
+        System.out.println("Can't find file");
+     }
+  }
+}
+catch (Exception ex)
+{
+ex.printStackTrace();
+}
+}
+}
+      
