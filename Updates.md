@@ -17,6 +17,7 @@ code for the brick breaker project (the paddle + movements).
 within the project (and hopefully executed by the time the game is done). 
 
 **Day 2 (Sort of) (January 12, 2021):**
+
 Dang N:
 1. Worked on the Planning for the Github Repository (Algorithm and Schedule).
 2. Helped out with finding and creating the game assets (such as drawings and photos of the game).
@@ -28,19 +29,23 @@ Abhiram S:
 3. Helped out with and worked on the Game UML for the planning of the game.
 
 **Day 3-4 (January 15-16):**
+
 Dang N:
 1. Assisted Abhiram in finding videos to help with the coding and assisted Abhiram in finding game assets (ex. Game Font, Game Background, Game Audio clips).
+
 Abhiram S:
 1. Looked for game assets for the game (such as fonts, background images, etc.)
 2. Worked on figuring out how to make the paddle and bricks of the game turn into images (SCRAPPED)
 
 **Day 5 (January 18):**
+
 Dang N:
 1. Worked on some game code (Found out how to create sound effects within the game and helped out with the menu)
 2. Helped with some issues with the code (such as figuring out how to call the contents of a different class into the main class / power-ups as well)
 3. Helped with the overall aesthetic of the game (such as the game font)
 4. Worked on finishing the base code files in the planning phase of the game
 5. Fleshed out some aspects of the planning phase
+
 Abhiram S:
 1. Worked on figuring out how to include sound effects into the game (COMPLETED)
 2. Worked on creating the main menu for the game
