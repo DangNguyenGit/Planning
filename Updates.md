@@ -55,7 +55,15 @@ Abhiram S:
 
 **Day 6 (January 19):**
 
+Dang N:
+1. Worked on the Github Planning Repository (Several different sections, including this section)
+2. Created some new game assets such as the game Instruction page (image)
+3. Helped out with figuring out how to fix the infinite loop problem with the menu music (still deciding whether we should just remove the menu music altogether)
 
+Abhiram S:
+1. Game debugging.
+2. Figuring out how to fix the issue with the game menu music infinity looping.
+3. Implemented some game assets to the game.
 
 
 
