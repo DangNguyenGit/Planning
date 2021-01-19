@@ -53,5 +53,9 @@ Abhiram S:
 4. Worked on creating the power-ups for the game
 5. Began working on creating the UML
 
+**Day 6 (January 19):**
+
+
+
 
 
