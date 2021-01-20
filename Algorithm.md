@@ -25,7 +25,7 @@
 1. Bricks (including the power-up bricks) Spawn in the game on the top half of the game screen
 2. If a regular brick is hit by the ball (any surface of the brick) the brick breaks
 3. If a power-up brick gets hit by the ball, a JPEG or Image of a power-up falls down [STILL DECIDING ON THE POWER UPS]
-4. If the player collects the power-up, activates power-up
+4. If the player collects the power-up, activates power-up [MAY CHANGE TO "IF PLAYER HITS BRICK - POWER-UP IS IN USE]
 5. If all of the bricks have been hit, move to a new level or reset the game (or a game completed screen pops-up)
 
 **Game Over + Game Start Frames**
