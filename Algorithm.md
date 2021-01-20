@@ -12,9 +12,9 @@
 9. The paddle ceases movement at its current position
 
 **Ball Movement Algorithm**
-1. Ball spawns a small distance between the top surface of the paddle and middle of the screen
+1. Ball spawns a small distance between the top surface of the paddle and middle of the screen (Now spawns on top of the paddle)
 2. Player starts the game (by clicking the start button)
-3. Ball begins to fall towards the surface of the top surface of the paddle
+3. Ball begins to fall towards the surface of the top surface of the paddle (Immediately gets hit by the paddle now)
 4. Paddle hits the surface of the paddle and bounces the opposite direction of its initial movement
 5. Paddle hits the surface (top / sides / bottom) of a brick, sides and top of the game screen or any surface of the paddle
 6. The ball moves the opposite direction of the initial movement or move according to basic game physics (angles and such)
