@@ -21,10 +21,10 @@ we will make however, so the additional changes will only be to improving the at
 
 **A General List of Changes and Modifications We Plan To Make**
 
-1. Intro Sequence or Menu Page (50-60 Percent COMPLETE)
+1. Intro Sequence (INTRO SEQUENCE SCRAPPED) or Menu Page (COMPLETE)
 2. Perks / Power-Ups (Bonus Gameplay Material for Players) (IN-PROGRESS)
-3. Improvements in the Look of the Game (Player Platform, Background, the Ball) (SOME PART SCRAPPED)
-4. Game Over Page (50-60 Percent COMPLETE)
+3. Improvements in the Look of the Game (Player Platform, Background, the Ball) (SOME PARTs SCRAPPED)
+4. Game Over Page (COMPLETE)
 
 **Why we Decided on these Changes:**
 
