@@ -36,4 +36,50 @@ ex.printStackTrace();
 }
 }
 }
+
+-----Paddle Movements Code-----
+@Override
+    public void keyPressed(KeyEvent e) { 
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            if (!play){
+                play = true;
+                ballPosX = 340;
+                ballPosY = 480;
+                paddlePosX = 300;
+                ballDirX = -1;
+                ballDirY = -2;
+                totalBricks = 50;
+                mapAccess = new BrickMap(5,10);
+            }
+        }
+        if(e.getKeyCode() == KeyEvent.VK_LEFT && play==true){
+            if(paddlePosX <= 10){
+                paddlePosX = 10;
+            }
+            else{
+                moveLeft();
+            }
+        }
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT && play==true){
+            if(paddlePosX >= 585){
+                paddlePosX = 585;
+            }
+            else{
+                moveRight();
+            }
+        }
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e){      
+    }
+    @Override
+    public void keyReleased(KeyEvent e){ 
+    }    
+    public void moveLeft(){
+        paddlePosX -= 20;
+    }
+    public void moveRight(){
+        paddlePosX += 20;
+    }
       
