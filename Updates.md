@@ -65,5 +65,13 @@ Abhiram S:
 2. Figuring out how to fix the issue with the game menu music infinity looping.
 3. Implemented some game assets to the game.
 
+**Day 7 (January 24)
+
+Dang N:
+1. Worked on planning (General stuff such as the base/test code and others)
+
+Abhiram S:
+1. Worked on making in game perks (or twists and turns) within the game.
+
 
 
