@@ -69,9 +69,12 @@ Abhiram S:
 
 Dang N:
 1. Worked on planning (General stuff such as the base/test code and others)
+2. Obtained the code and learned sections of it to better understand it
+3. Helped with UML and the game code
 
 Abhiram S:
 1. Worked on making in game perks (or twists and turns) within the game.
+2. Worked on the UML
 
 
 
