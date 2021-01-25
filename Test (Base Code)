@@ -83,3 +83,26 @@ ex.printStackTrace();
         paddlePosX += 20;
     }
       
+-----Ball Movement Code-----
+ballPosX += ballDirX;
+            ballPosY += ballDirY;
+            if(ballPosX<10){
+                ballDirX = -ballDirX;
+            }
+            if(ballPosX>665){
+                ballDirX = -ballDirX;
+            }
+            if(ballPosY<10){
+                ballDirY = -ballDirY;
+            }
+-----Ball Collision With Objects (Code Specific With Bricks)-----
+if(ballRect.intersects(brickRect)){
+                            mapAccess.setBrickValue(0,i,j);
+                            sound2.playSoundEffect1(secondSound);
+                            totalBricks--;
+                            if(ballPosX +19<=brickRect.x || ballPosX+1 >=brickRect.x + brickRect.width){
+                                ballDirX = -ballDirX;
+                            }
+                            else{
+                                ballDirY = -ballDirY;
+                            }
