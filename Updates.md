@@ -76,5 +76,15 @@ Abhiram S:
 1. Worked on making in game perks (or twists and turns) within the game.
 2. Worked on the UML
 
+**Day 8 (January 25):**
+
+Dang N:
+1. Finishing touches on the planning of the game (Lessons from the Game Code)
+2. Helped out with the UML and game code
+
+Abhiram S:
+1. Finishing touches on the game code
+2. Worked on the UML
+
 
 
