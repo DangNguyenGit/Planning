@@ -86,5 +86,15 @@ Abhiram S:
 1. Finishing touches on the game code
 2. Worked on the UML
 
+**Day 9 (January 27):**
+
+Dang N:
+1. Completed Planning
+2. Completed Code
+
+Abhiram S:
+1. Completed Planning
+2. Completed Code
+
 
 
