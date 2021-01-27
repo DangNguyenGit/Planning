@@ -59,8 +59,8 @@
 **Pause and Play Algorithm**
 1. Player starts the game
 2. If player clicks the space bar on their keyboard
-3. Game pauses
+3. Game pauses (paddle and ball stop moving)
 4. If player clicks the space bar on their keyboard again
-5. Gameplay resumes
+5. Gameplay resumes (paddle and ball start moving in whatever speed/direction they were moving in before pause)
 
 
