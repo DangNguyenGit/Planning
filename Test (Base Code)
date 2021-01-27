@@ -135,3 +135,32 @@ public void challenges(){
             }        
         }
     }
+    
+    -----Brick Map Class Code-----
+    
+    public BrickMap(int row, int column){
+        brickLayout = new int[row][column];
+        for(int i = 0; i<brickLayout.length; i++){
+            for(int j = 0; j< brickLayout[0].length;j++){
+                brickLayout[i][j] = 1;
+            }
+        }
+    brickWidth = 600/column;
+    brickHeight = 150/row;
+    }
+    public void draw(Graphics2D g){
+        for(int i = 0; i<brickLayout.length; i++){
+            for(int j = 0; j< brickLayout[0].length;j++){
+                if(brickLayout[i][j] > 0){
+                    g.setColor(Color.BLACK);
+                    g.fillRect(j*brickWidth+48, i*brickHeight+80, brickWidth, brickHeight);
+                    g.setStroke(new BasicStroke(3));
+                    g.setColor(Color.WHITE);
+                    g.drawRect(j*brickWidth+48, i*brickHeight+80, brickWidth, brickHeight);
+                }
+            }
+        }        
+    }
+    
+    public void setBrickValue(int value, int row, int column){
+        brickLayout[row][column] = value;
