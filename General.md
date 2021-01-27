@@ -60,12 +60,14 @@ player loses, a basic "Game Over" menu/window will appear along side a "Return t
 the game or send the player back to the main menu as shown on the button text. 
 
 **Theme / Design**
+
 We decided to go with a black and white theme for the game. This makes the game look modern, simplistic and clean. It’s not harsh on the players eyes and it is easy for
 the player to use every important game asset easily such as the ball and paddle. We originally made the paddle blue, the ball orange, the bricks red with a black background,
 however the game seemed too olden day and typical so we decided to change up the color scheme. I also used pixel writing for the game for an old school Brick Breaker
 vibe. Plus, the background music and the sound effects make the game feel relaxing but also fun and addicting.
 
 **Vetoed Ideas**
+
 [SCRAPPED INTRO SEQUENCE]
 [SCRAPPED ABOUT US SECTION]
 [SCRAPPED COLORED PERKS AND PNG POWER UPS]
