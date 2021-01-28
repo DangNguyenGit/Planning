@@ -1,0 +1,700 @@
+**Code for Game**
+
+**AccessGame Class**
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package finalproject_brickbreakergame;
+
+//import to switch classes
+import javax.swing.*;
+
+public class AccessGame {
+    public AccessGame(){ //All this class does is set the size, title, close operation, visibility and resizability of the frame
+        //then opens the GameFunction class frame
+        JFrame gameFrame = new JFrame();
+        GameFunctions gamePlay = new GameFunctions();
+        gameFrame.setBounds(10,10,700,600);
+        gameFrame.setTitle("Brick Breaker Remake");
+        gameFrame.setResizable(false);
+        gameFrame.setVisible(true);
+        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameFrame.add(gamePlay);
+    }   
+}
+
+**BrickMap Class**
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package finalproject_brickbreakergame;
+
+//import for graphics
+import java.awt.*;
+
+/**
+ *
+ * @author abhir
+ */
+public class BrickMap {
+    public int brickLayout[][]; //rows,columns that one rectangle is being cut into
+    //save length and width of each brick
+    public int brickWidth;
+    public int brickHeight;
+    
+    public BrickMap(int row, int column){ //constructor method to create bricks
+        brickLayout = new int[row][column];
+        for(int i = 0; i<brickLayout.length; i++){
+            for(int j = 0; j< brickLayout[0].length;j++){
+                brickLayout[i][j] = 1;
+            }
+        }
+    //determining how big each brick should be
+    brickWidth = 600/column; 
+    brickHeight = 150/row;
+    }
+    public void draw(Graphics2D g){ //drawing out the bricks 
+        for(int i = 0; i<brickLayout.length; i++){
+            for(int j = 0; j< brickLayout[0].length;j++){
+                if(brickLayout[i][j] > 0){
+                    g.setColor(Color.BLACK);
+                    g.fillRect(j*brickWidth+48, i*brickHeight+80, brickWidth, brickHeight);
+                    g.setStroke(new BasicStroke(3));
+                    g.setColor(Color.WHITE);
+                    g.drawRect(j*brickWidth+48, i*brickHeight+80, brickWidth, brickHeight);
+                }
+            }
+        }        
+    }
+    
+    public void setBrickValue(int value, int row, int column){
+        brickLayout[row][column] = value;
+        
+    }
+    
+}
+
+**Game Functions**
+/*
+Brick Breaker Game - Java Project
+Abhiram Sureshkumar, Dang Nguyen (ICS4U)
+Due: January 29th, 2021
+ */
+package finalproject_brickbreakergame;
+
+//Imports used to add music, keyboard controls, picking random numbers, etc.
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.util.Random;
+
+public class GameFunctions extends JPanel implements KeyListener, ActionListener{
+    private boolean play = false; //Variable used to detect if game is being played
+    private boolean paused = false; //Variable used to detect if game is paused
+    private boolean gameOver = true; //Variable used to detect if game is over
+    
+    Random r = new Random(); //Variable used to pick a random number (to pick challenge)
+    
+    private boolean enterClicked = false; //Variable used to detect if the enter key has been pressed (to start game)
+    private boolean spaceClicked = false; //Variable used to detect if the space key has been pressed (to pause game)
+    
+    private int bricksRemaining = 50; //Variable used to detect the amount of bricks needed to be hit to win the game
+   
+    private Timer timer; //Variable used to set game speed
+    private int speed = 8; //Another variable used to set game speed (higher the number, slower the game will run)
+    
+    private int paddlePosX = 300; //Variable used to adjust paddle's x position (doesn't move in y direction)
+    private boolean slowPaddle = false; //Variable used to detect if the paddle needs to slow down
+    private boolean fastPaddle = false; //Variable used to detect if the paddle needs to speed up
+    
+    private int ballPosX = 340; //Variable tracking ball's x position
+    private int ballPosY = 480; //Variable tracking ball's y position
+    private int ballDirX = -1; //Variable tracking ball's direction in x
+    private int ballDirY = -2; //Variable tracking ball's direction in y
+    private int prevBallDirX; //Variable used to save the ball's x speed and direction right before the game paused
+    private int prevBallDirY; //Variable used to save the ball's y speed and direction right before the game paused
+    
+    private BrickMap mapAccess; //Variable to access content in BrickMap class
+    String firstSound = ("src\\audio\\Boop_Sound1.wav"); //Variable to play this sound
+    String secondSound = ("src\\audio\\Block_sound.wav"); //Variable to play this sound
+    SoundEffects sound1 = new SoundEffects(); //Variable used for the first of three sound effects to upload to game
+    SoundEffects sound2 = new SoundEffects(); //Variable used for the second of three sound effects to upload to game
+    //SoundEffects sound3 = new SoundEffects(); //Variable used for the three of three sound effects to upload to game
+    
+    public GameFunctions(){
+        mapAccess = new BrickMap(5,10); //Setting the amount of rows and columns to cut the rectangle (like creating a table on google doc)
+        //Adding keyboard detection
+        addKeyListener(this); 
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        //Setting game speed
+        timer = new Timer(speed,this); 
+        timer.start();
+    }
+    
+    public void backgroundMusic(){ //Void is used to play music in the background and loop it continuously once the game starts
+        try{
+            File musicPath = new File("src\\audio\\Mimosa.wav");
+            if(musicPath.exists()){
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+            else{
+                System.out.println("Can't find file");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }       
+    }
+    
+    public void paint(Graphics g){ //Drawing each game design aspect and repainting for visible movement of paddle and ball
+        //drawing background
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,800,600);
+        
+        //drawing borders
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,10,600);
+        g.fillRect(0,0,800,10);
+        g.fillRect(685,0,700,600);
+        
+        //drawing brick map
+        mapAccess.draw((Graphics2D)g); //Accessing void in BrickMap class
+        
+        //drawing paddle
+        g.setColor(Color.BLACK);
+        g.fillRect(paddlePosX,500,100,8);
+        
+        //drawing ball
+        g.setColor(Color.BLACK);
+        g.fillOval(ballPosX, ballPosY, 20, 20);
+        
+        //outputting score
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("pixelmix",Font.BOLD,25));
+        g.drawString("Bricks Left: "+bricksRemaining,380,57);
+        
+        //Adding text for when game is paused
+        if(paused && play && !gameOver){
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("pixelmix",Font.BOLD,25));
+            g.drawString("Paused",290,340);
+        }
+        
+        //if player loses
+        if(ballPosY > 600){
+            play = false;
+            ballDirX = 0;
+            ballDirY = 0;
+            gameOver = true;
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("pixelmix",Font.BOLD,25));
+            g.drawString("Game Over!",257,300);
+            g.setFont(new Font("pixelmix",Font.BOLD,25));
+            g.drawString("Bricks Hit: "+(50-bricksRemaining),240,350);
+            g.setFont(new Font("pixelmix",Font.BOLD,22));
+            g.drawString("Click the enter key to start again.",55,400);
+        }  
+        //if player wins
+        if(bricksRemaining == 0){
+            play = false;
+            gameOver = true;
+            ballDirX = 0;
+            ballDirY = 0;
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("pixelmix",Font.BOLD,25));
+            g.drawString("Congrats! You Won!",188,300);
+            g.setFont(new Font("pixelmix",Font.BOLD,25));
+            g.drawString("Bricks Left: "+(50-bricksRemaining),230,350);
+            g.setFont(new Font("pixelmix",Font.BOLD,22));
+            g.drawString("Click the enter key to start again.",55,400);
+        }
+        g.dispose();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) { //handling action events
+        timer.start(); 
+        repaint(); //background, sprites, etc. are drawn
+        if(play){ //all commands under this if statement execute while the game is being played
+            //drawing hitboxes for paddle and ball
+            Rectangle ballRect = new Rectangle(ballPosX,ballPosY,20,20);
+            Rectangle paddleRect = new Rectangle(paddlePosX,500,100,8);
+            if(ballRect.intersects(paddleRect)){ //if the ball touches the paddle, sound effect and challenges will execute
+                challenges();
+                sound1.playSoundEffect1(firstSound);
+                //ball will also bounce in opposite x and y direction depending on where the ball hit the paddle
+                if(ballPosX +19<=paddleRect.x || ballPosX+1 >=paddleRect.x + paddleRect.width){
+                    ballDirX = -ballDirX;
+                }
+                else{
+                    ballDirY = -ballDirY;
+                }
+            }
+            A: for(int i = 0; i<mapAccess.brickLayout.length; i++){ //drawing out the bricks and their hitboxes
+                for(int j = 0; j< mapAccess.brickLayout[0].length;j++){
+                    if(mapAccess.brickLayout[i][j]>0){ //when none of the bricks have been touched the ball yet, the bricks will be drawn
+                        int brickXPos = j*mapAccess.brickWidth+48;
+                        int brickYPos = i*mapAccess.brickHeight+80;
+                        int brickWidth = mapAccess.brickWidth;
+                        int brickHeight = mapAccess.brickHeight;                        
+                        Rectangle rect = new Rectangle(brickXPos, brickYPos, brickWidth,brickHeight); 
+                        Rectangle brickRect = rect;
+                        if(ballRect.intersects(brickRect)){ //same ball touching brick command as for the paddle except brick dissapears and adjusts score
+                            mapAccess.setBrickValue(0,i,j);
+                            sound2.playSoundEffect1(secondSound);
+                            bricksRemaining--;
+                            if(ballPosX +19<=brickRect.x || ballPosX+1 >=brickRect.x + brickRect.width){ //same ball bouncing off command as paddle 
+                                ballDirX = -ballDirX;
+                            }
+                            else{
+                                ballDirY = -ballDirY;
+                            }
+                            break A; //using this notation to break out of the first for loop
+                        }
+                    }                    
+                }
+            }
+            //ball's x and y movement with boundaries
+            ballPosX += ballDirX; 
+            ballPosY += ballDirY;
+            if(ballPosX<10){
+                ballDirX = -ballDirX;
+            }
+            if(ballPosX>665){
+                ballDirX = -ballDirX;
+            }
+            if(ballPosY<15){
+                ballDirY = -ballDirY;
+            }
+        }
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent e) { //accounting for pressed keyboard keys
+        //when spacebar pressed game will execute the pause and play void if the game is being played
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && spaceClicked == false && !gameOver){
+            paused = true;
+            freeze();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE && spaceClicked == true && !gameOver){
+            paused = false;
+            freeze();
+        }
+        //when enter key is pressed the game will start/restart (resets position of sprites, score and amount of bricks)
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            gameOver = false;
+            if(!enterClicked){
+                backgroundMusic();
+                enterClicked=true;
+            }
+            if (!play){
+                play = true;
+                ballPosX = 340;
+                ballPosY = 480;
+                paddlePosX = 300;
+                ballDirX = 1;
+                ballDirY = -2;
+                bricksRemaining = 50;
+                fastPaddle = false;
+                slowPaddle = false;
+                mapAccess = new BrickMap(5,10);
+            }
+        }
+        //when left arrow key is pressed the paddle will move to the left if the game is being played
+        if(e.getKeyCode() == KeyEvent.VK_LEFT && play==true){
+            if(paddlePosX <= 10){
+                paddlePosX = 10;
+            }
+            else{
+                moveLeft();
+            }
+        }
+        //when right arrow key is pressed the paddle will move to the right if the game is being played
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT && play==true){
+            if(paddlePosX >= 585){
+                paddlePosX = 585;
+            }
+            else{
+                moveRight();
+            }
+        }
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e){      
+    }
+    @Override
+    public void keyReleased(KeyEvent e){ 
+    }    
+    
+    //void used to move the paddle left at different speeds (depending on the twist)
+    public void moveLeft(){
+        if(slowPaddle){
+            paddlePosX -= 10;
+            }
+        else if(fastPaddle){
+            paddlePosX -= 50;
+        }
+        else{
+            paddlePosX -= 20;}
+    }
+    //void used to move the paddle right at different speeds (depending on the twist)
+    public void moveRight(){
+        if(!paused && !gameOver){
+            if(slowPaddle && !fastPaddle){
+                paddlePosX += 10;
+            }
+            else if(fastPaddle && !slowPaddle){
+                paddlePosX += 50;
+            }
+            else{
+                paddlePosX += 20;}
+        }
+    }
+    
+    //void made for game to be able to pause 
+    public void freeze(){
+            if(paused == true && ballDirY != 0 && play){
+                spaceClicked = true;
+                prevBallDirX = ballDirX;
+                prevBallDirY = ballDirY;
+                ballDirX = 0;
+                ballDirY = 0;
+            }
+            else if(paused == false && play){
+                spaceClicked = false;
+                ballDirX = prevBallDirX;
+                ballDirY = prevBallDirY;
+            }
+    }
+    
+    //the twists only start to come when theres 48 bricks remaining to avoid lag spikes
+    public void challenges(){
+        if(bricksRemaining <= 48){
+            int chooseChallenge = r.nextInt(5); /*Random ints: 0,1,2,3,4
+            (challenges only go from ints 0-3 but 4
+            so the ball/paddle speed can go back to normal so the game isn't too hard)*/
+            switch(chooseChallenge){
+                case 0: //ball slows down
+                    ballDirX = -2;
+                    ballDirY = 1;
+                    break;
+                case 1: //ball speeds up
+                    ballDirX = -2;
+                    ballDirY = 4;
+                    break;
+                case 2: //paddle slows down
+                    fastPaddle = false;                    
+                    slowPaddle = true;
+                    break;
+                case 3: //paddle speeds up
+                    slowPaddle = false;
+                    fastPaddle = true;
+                    break;
+                default: //default motion
+                    ballDirX = -1;
+                    ballDirY = 2;
+                    slowPaddle = false;
+                    fastPaddle = false;
+            }        
+        }
+    }
+}
+
+**InstructionScreen GUI**
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package finalproject_brickbreakergame;
+
+/**
+ *
+ * @author abhir
+ */
+public class InstructionScreen extends javax.swing.JFrame {
+
+    /**
+     * Creates new form instructionScreen
+     */
+    public InstructionScreen() {
+        initComponents(); //connecting java to GUI editor
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setFont(new java.awt.Font("pixelmix bold", 0, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Back");
+        jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 420, 150, 48));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 600));
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>                        
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        //when this button pressed, this screen will exit and open the menu screen
+        MenuScreen toMenu = new MenuScreen(); 
+        toMenu.setVisible(true);
+        setVisible(false);
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InstructionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InstructionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InstructionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InstructionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                //setting the instruction screen to be visible once its open
+                new InstructionScreen().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel2;
+    // End of variables declaration                   
+}
+
+
+**MenuScreen GUI**
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package finalproject_brickbreakergame;
+
+/**
+ *
+ * @author abhir
+ */
+import finalproject_brickbreakergame.AccessGame;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+import java.awt.*;
+
+public class MenuScreen extends javax.swing.JFrame {
+
+boolean playButton = false;
+    /**
+     * Creates new form menuScreen
+     */
+    public MenuScreen() {
+        initComponents(); //connecting java to GUI editor
+        setResizable(false); //tab cannot be resized
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("pixelmix bold", 1, 60)); // NOI18N
+        jLabel1.setText("BRICK BREAKER");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, -1, -1));
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setFont(new java.awt.Font("pixelmix bold", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Play");
+        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 246, 55));
+
+        jButton3.setBackground(new java.awt.Color(0, 0, 0));
+        jButton3.setFont(new java.awt.Font("pixelmix bold", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Instructions");
+        jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 250, 60));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Bkground 2.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 600));
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>                        
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        //when this button is pressed, menu screen will close and open the AccessGame class
+        JFrame goToGame = new JFrame(); 
+        AccessGame gamePlay = new AccessGame(); 
+        setVisible(false);
+    }                                        
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        //when this button is pressed, menu screen will close and open the instruction screen
+        InstructionScreen instructions = new InstructionScreen();
+        instructions.setVisible(true);
+        setVisible(false);
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MenuScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MenuScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MenuScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MenuScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                //when game is run, this will open
+                new MenuScreen().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    // End of variables declaration                   
+}
+
+**SoundEffects Class**
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package finalproject_brickbreakergame;
+
+//sound imports
+import java.io.*;
+import javax.sound.sampled.*;
+
+/**
+ *
+ * @author abhir
+ */
+public class SoundEffects { 
+    //void to play both sound effects in game
+    void playSoundEffect1(String musicLocation){
+        try{ //accesses the sound file and sets it as a audio input file then a clip file
+            File musicPath = new File(musicLocation);
+            if(musicPath.exists()){
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start(); //plays the audio clip
+            }
+            else{ //if file doesnt exist
+                System.out.println("Can't find file");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+}
